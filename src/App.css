@@ -28,6 +28,145 @@
     height: 520px;
 }
 
+.cat-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF8DC;
+    border: 4px solid #000;
+    box-shadow: 8px 8px 0 #000;
+    border-radius: 0;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+}
+
+.cat-card:active {
+    cursor: grabbing;
+}
+
+.cat-card.behind {
+    transform: scale(0.92) translateY(16px);
+    opacity: 0.6;
+    z-index: 0;
+}
+
+.cat-card.active {
+    z-index: 2;
+}
+
+.cat-card.swiping-left {
+    animation: swipeLeft 0.5s forwards;
+}
+
+.cat-card.swiping-right {
+    animation: swipeRight 0.5s forwards;
+}
+
+.cat-card.swiping-up {
+    animation: swipeUp 0.5s forwards;
+}
+
+@keyframes swipeLeft {
+    0% { transform: rotate(0deg); opacity: 1; }
+    100% { transform: translateX(-150%) rotate(-30deg); opacity: 0; }
+}
+
+@keyframes swipeRight {
+    0% { transform: rotate(0deg); opacity: 1; }
+    100% { transform: translateX(150%) rotate(30deg); opacity: 0; }
+}
+
+@keyframes swipeUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-150%) scale(1.1); opacity: 0; }
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-bottom: 4px solid #000;
+    position: relative;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-badge {
+    position: absolute;
+    top: 16px;
+    padding: 6px 14px;
+    font-weight: 900;
+    font-size: 16px;
+    border: 3px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.badge-nope {
+    left: 16px;
+    background-color: #FF3366;
+    color: #FFF;
+    transform: rotate(-15deg);
+}
+
+.badge-like {
+    right: 16px;
+    background-color: #00CC66;
+    color: #FFF;
+    transform: rotate(15deg);
+}
+
+.badge-super {
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #6666FF;
+    color: #FFF;
+}
+
+.card-info {
+    padding: 20px;
+}
+
+.card-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.card-name {
+    font-size: 28px;
+    font-weight: 900;
+    color: #000;
+    letter-spacing: -0.5px;
+}
+
+.card-age {
+    font-size: 20px;
+    font-weight: 900;
+    color: #FF6B35;
+}
+
+.card-location {
+    font-size: 13px;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 /* Action Buttons */
 .action-bar {
     padding: 20px 24px 28px;
