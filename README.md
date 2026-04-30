@@ -1,11 +1,10 @@
 # Cattinder v2
 
-One of my first and big *(to me)* projects was Cattinder which I made around 6 months ago *(as of writing this, and yea thats how new i am)*, and to this day it's my most prized and favorite projects, so I remade it! Now that I am a more sigma dev with slightly more skills and hunger bars at 1, I remade it:
+One of my first and big *(to me)* projects was Cattinder which I made around 6 months ago *(as of writing this, and yea thats how new i am)*, and to this day it's my most prized and favorite projects, so I remade it! Now that I am a more sigma dev with slightly more skills and hunger bars at 1. I remade it:
 
 ![Screenshot](assets/ss.png)
 
 ---
-EMOJII
 ## 🚀 How to Run
 
 1. Clone this repo, cd into that repo
@@ -33,4 +32,4 @@ EMOJII
 
 ---
 
-*i havent ate in 8 hours and i is now regretting life choices*
+the typescript in this project is a lie
