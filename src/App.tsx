@@ -1,6 +1,7 @@
 import './App.css'
 import Card from './Card.tsx'
 import { useState, useEffect } from 'react';
+import { faker } from '@faker-js/faker';
 
 function App() {
 
@@ -23,14 +24,8 @@ function App() {
       const blob = await imageResponse.blob();
       const image = URL.createObjectURL(blob);
 
-      // get cat name from api
-      const nameResponse = await fetch("https://tools.estevecastells.com/api/cats/v1");
-      if (!nameResponse.ok) {
-        throw new Error(`HTTP error! status: ${nameResponse.status}`);
-      }
-      const nameData = await nameResponse.json();
-      const name = nameData[0] || "Failed to load name";
-      // console.log(name);
+      // get cat name from FAKER
+      const name = faker.person.firstName() || "Failed to load name"
 
       // get cat location from api
       const locationResponse = await fetch("https://api.testingbot.com/v1/free-tools/random-address?country=us")
@@ -46,6 +41,10 @@ function App() {
       cleanedLocation.shift();
       const joinedLocation = cleanedLocation.join(" ");
       const location = joinedLocation || "Failed to load location";
+
+      //get cat bio from FAKER
+      const bio = faker.person.bio() || "Failed to load bio";
+      console.log(bio)
     
       // create card object
       const newCat = {
@@ -53,7 +52,8 @@ function App() {
         image,
         name,
         age: randomAge(),
-        location
+        location,
+        bio
       };
 
       setCards(prev => [...prev, newCat]);

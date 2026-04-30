@@ -3,6 +3,7 @@ interface Cat {
     name: string;
     age: number;
     location: string;
+    bio: string;
 }
 
 export default function Card({ cat }: { cat: Cat }) {
@@ -20,6 +21,7 @@ export default function Card({ cat }: { cat: Cat }) {
                 <span className="card-age">{cat.age}</span>
             </div>
             <div className="card-location">📍 {cat.location}</div>
+            <div className="card-bio">{cat.bio}</div>
         </div>
     </div>
     )
