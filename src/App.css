@@ -180,6 +180,7 @@
 
 /* Action Buttons */
 .action-bar {
+    position: relative;
     padding: 20px 24px 28px;
     display: flex;
     justify-content: center;
@@ -235,12 +236,31 @@
     font-size: 22px;
 }
 
+
 .btn-super:hover {
     box-shadow: 7px 7px 0 #000;
 }
 
 .btn-super:active {
     box-shadow: 1px 1px 0 #000;
+}
+
+.btn-downloadCat {
+    background-color: #FFD700;
+    color: #000;
+    box-shadow: 5px 5px 0 #000;
+    position: absolute;
+    left: 24px; 
+}
+
+.btn-downloadCat:hover {
+    box-shadow: 7px 7px 0 #000;
+    background-color: #FFDF00;
+}
+
+.btn-downloadCat:active {
+    box-shadow: 1px 1px 0 #000;
+    transform: scale(0.95);
 }
 
 .btn-like {
@@ -256,6 +276,10 @@
 .btn-like:active {
     box-shadow: 1px 1px 0 #000;
 }
+
+
+
+
 
 .icon {
     width: 28px;

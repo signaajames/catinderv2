@@ -81,6 +81,7 @@ function App() {
     }, 500); 
   }
 
+
   async function createCard() {
     setIsLoading(true);
     try {
@@ -131,6 +132,58 @@ function App() {
       setIsLoading(false);
     }
   }
+  async function savePngFile(blob: Blob, fileName: string) {
+    // try the modern way first (Chromium)
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: fileName,
+          types: [{
+            description: 'JPG Image',
+            accept: { 'image/jpeg': ['.jpg'] },
+          }],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return; 
+        console.error('Modern save failed, trying fallback...', err);
+      }
+    }
+    // fallback to something that works with firefox
+    try {
+      const url = URL.createObjectURL(blob);
+    
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${fileName}.jpg`; // Make sure to add the extension!
+    
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+ 
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Fallback save failed', err);
+    }
+  }
+
+
+  async function handleDowloadClick() {
+    const topCat = cards[0];
+    if (!topCat) return;
+    
+    try {
+      const response = await fetch(topCat.image);
+      const blob = await response.blob();
+
+      await savePngFile(blob, topCat.name);
+    } catch (err) {
+      console.error('Failed to prepare download', err);
+    }
+  }
 
   useEffect(() => {
     createCard();
@@ -159,7 +212,6 @@ function App() {
               const isTop = index === cards.length - 1;
               const isSwiping = cat.id === swipingId;
     
-              // Dynamic styling for dragging[cite: 5]
               const dragStyle = (isTop && isDragging) ? {
                 transform: `translate(${dragPos.x}px, ${dragPos.y}px) rotate(${dragPos.x * 0.1}deg)`,
                 transition: 'none', // Remove transition so it follows mouse perfectly
@@ -182,6 +234,9 @@ function App() {
         </div>
         {/* actionbar area */}
         <div className="action-bar">
+          <button className='action-btn btn-downloadCat' title="Download (uhh)" onClick={() => handleDowloadClick()}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+          </button>
           <button className="action-btn btn-nope" onClick={swipeNope} title="Nope (←)">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
