@@ -1,14 +1,18 @@
 import './App.css'
 import Card from './Card.tsx'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { faker } from '@faker-js/faker';
 
 function App() {
+
+  const startPos = useRef({ x: 0, y: 0 });
 
   const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
   const [swipingId, setSwipingId] = useState<number | null>(null);
   const [swipeDir, setSwipeDir] = useState<string>("");
+  const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
 
   function swipeNope() {
     handleSwipe('left');
@@ -23,6 +27,42 @@ function App() {
     console.log("Super like");
   }
   function randomAge() { return Math.floor(Math.random() * 10) + 1; }
+
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if (swipingId) return;
+    setIsDragging(true);
+  
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+  
+    // Store where the drag began
+    startPos.current = { x: clientX, y: clientY };
+  };
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging || swipingId) return;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    // Calculate the relative distance moved
+    setDragPos({ 
+      x: clientX - startPos.current.x, 
+      y: clientY - startPos.current.y 
+    });
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+
+    const threshold = 100;
+    if (dragPos.x < -threshold) handleSwipe('left');
+    else if (dragPos.x > threshold) handleSwipe('right');
+    else if (dragPos.y < -threshold) handleSwipe('up');
+  
+    setDragPos({ x: 0, y: 0 }); // Reset position if no swipe triggered
+  };
 
   async function handleSwipe(direction: 'left' | 'right' | 'up') {
     if (cards.length === 0 || swipingId) {
@@ -108,22 +148,36 @@ function App() {
       <div className='main-area'>
         {/* card area */}
         <div className='card-area'>
-          <div className='card-stack'>
+          <div 
+            className='card-stack'
+            onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onTouchMove={handleDragMove}
+            onTouchEnd={handleDragEnd}
+          >
             {[...cards].reverse().map((cat, index) => {
               const isTop = index === cards.length - 1;
-
               const isSwiping = cat.id === swipingId;
-              const animationClass = isSwiping ? `swipe-${swipeDir}` : '';
+    
+              // Dynamic styling for dragging[cite: 5]
+              const dragStyle = (isTop && isDragging) ? {
+                transform: `translate(${dragPos.x}px, ${dragPos.y}px) rotate(${dragPos.x * 0.1}deg)`,
+                transition: 'none', // Remove transition so it follows mouse perfectly
+                cursor: 'grabbing'
+              } : {};
 
               return (
                 <Card
                   key={cat.id}
                   cat={cat}
-                  className={`{isTop ? 'card-active' : 'card-behind'} ${animationClass}`}
+                  className={`${isTop ? 'card-active' : 'card-behind'} ${isSwiping ? `swiping-${swipeDir}` : ''}`}
+                  style={dragStyle}
+                  onMouseDown={isTop ? handleDragStart : undefined}
+                  onTouchStart={isTop ? handleDragStart : undefined}
+                  dragPos={isTop ? dragPos : { x: 0, y: 0 }}
                 />
-              )
+              );
             })}
-            {isLoading && <p>loading cat</p>}
           </div>
         </div>
         {/* actionbar area */}
