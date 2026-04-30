@@ -6,9 +6,9 @@ interface Cat {
     bio: string;
 }
 
-export default function Card({ cat }: { cat: Cat }) {
+export default function Card({ cat, className }: { cat: Cat; className?: string }) {
     return (
-    <div className="cat-card">
+    <div className={`cat-card ${className || ''}`}>
         <div className="card-image-wrapper">
             <img className="card-image" src={cat.image} alt={cat.name} />
             <div className="card-badge badge-nope" id="badgeNope">NOPE</div>

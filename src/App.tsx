@@ -7,11 +7,39 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState<any[]>([]);
+  const [swipingId, setSwipingId] = useState<number | null>(null);
+  const [swipeDir, setSwipeDir] = useState<string>("");
 
-  function swipeNope() {console.log("Nope");}
-  function swipeLike() {console.log("Like");}
-  function swipeSuper() {console.log("Super Like");}
+  function swipeNope() {
+    handleSwipe('left');
+    console.log("Nope");
+  }
+  function swipeLike() {
+    handleSwipe('right');
+    console.log("Like");
+  }
+  function swipeSuper() {
+    handleSwipe('up');
+    console.log("Super like");
+  }
   function randomAge() { return Math.floor(Math.random() * 10) + 1; }
+
+  async function handleSwipe(direction: 'left' | 'right' | 'up') {
+    if (cards.length === 0 || swipingId) {
+      return;
+    }
+    
+    const topCard = cards[0];
+    setSwipingId(topCard.id);
+    setSwipeDir(direction);
+    
+  setTimeout(() => {
+      setCards(prev => prev.slice(1)); // Now remove it from data
+      setSwipingId(null);              // Reset animation state
+      setSwipeDir("");
+      createCard();                    // Load the next replacement
+    }, 500); 
+  }
 
   async function createCard() {
     setIsLoading(true);
@@ -66,6 +94,7 @@ function App() {
 
   useEffect(() => {
     createCard();
+    createCard();
   }, [])
 
   return (
@@ -80,9 +109,20 @@ function App() {
         {/* card area */}
         <div className='card-area'>
           <div className='card-stack'>
-            {cards.map((cat) => (
-              <Card key={cat.id} cat={cat} />
-            ))}
+            {[...cards].reverse().map((cat, index) => {
+              const isTop = index === cards.length - 1;
+
+              const isSwiping = cat.id === swipingId;
+              const animationClass = isSwiping ? `swipe-${swipeDir}` : '';
+
+              return (
+                <Card
+                  key={cat.id}
+                  cat={cat}
+                  className={`{isTop ? 'card-active' : 'card-behind'} ${animationClass}`}
+                />
+              )
+            })}
             {isLoading && <p>loading cat</p>}
           </div>
         </div>
