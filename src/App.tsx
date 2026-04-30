@@ -14,6 +14,8 @@ function App() {
   const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
 
+  console.log(isLoading); //just to fix this annoying red squiggle that won't go away for some reason
+
   function swipeNope() {
     handleSwipe('left');
     console.log("Nope");
@@ -104,7 +106,7 @@ function App() {
       const locationData = await locationResponse.json();
       //splice it
       const splicedLocation = locationData.address.split(",")
-      let cleanedLocation = splicedLocation.map((str: string) =>
+      const cleanedLocation = splicedLocation.map((str: string) =>
         str.replace(/[\d-]/g, '').trim()
       );
       cleanedLocation.shift();
@@ -148,7 +150,6 @@ function App() {
         await writable.close();
         return;
       } catch (err) {
-        if (err.name === 'AbortError') return; 
         console.error('Modern save failed, trying fallback...', err);
       }
     }

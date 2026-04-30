@@ -1,73 +1,36 @@
-# React + TypeScript + Vite
+# Cattinder v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+One of my first and big *(to me)* projects was Cattinder which I made around 6 months ago *(as of writing this, and yea thats how new i am)*, and to this day it's my most prized and favorite projects, so I remade it! Now that I am a more sigma dev with slightly more skills and hunger bars at 1, I remade it:
 
-Currently, two official plugins are available:
+![Screenshot](assets/ss.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
+EMOJII
+## 🚀 How to Run
 
-## React Compiler
+1. Clone this repo, cd into that repo
+2. `npm i`
+3. `npm run dev`
+4. Enjoy the cats (can download them as jpg too!)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React**
+- **Vite**
+- **TypeScript**
+- **Faker.js** (for fake cat names and bios)
+- **CSS**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### ✨ Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Swipe left/right on cats
+- Preloads 2 cards so it feels like you have fast wifi
+- Random cat pics, names, location (hm), and bios (thanks, [Cataas](https://cataas.com/), [Faker](https://fakerjs.dev/), [TestingBot](https://testingbot.com/free-online-tools/random-address-generator))
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*i havent ate in 8 hours and i is now regretting life choices*

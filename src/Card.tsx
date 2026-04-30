@@ -1,11 +1,3 @@
-interface Cat {
-    image: string;
-    name: string;
-    age: number;
-    location: string;
-    bio: string;
-}
-
 export default function Card({ cat, className, style, onMouseDown, onTouchStart, dragPos }: any) {
     const getBadgeOpacity = (type: string) => {
         const x = dragPos?.x || 0;
